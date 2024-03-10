@@ -15,7 +15,7 @@ class Observable(BaseObservableProtocol):
     observers: Iterable[ObserverProtocol] = []
 
     def __init__(self, observers: Iterable[ObserverProtocol] | None = None):
-        if self.observers == []:
+        if self.observers == [] or observers:
             if observers is None:
                 observers = []
             self.observers = observers

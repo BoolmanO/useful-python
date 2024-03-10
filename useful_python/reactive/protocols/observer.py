@@ -1,8 +1,9 @@
 from __future__ import annotations
 
-from typing import Any, Protocol
+from typing import Any, Protocol, TYPE_CHECKING
 
-from useful_python.reactive.protocols.observable import BaseObservableProtocol
+if TYPE_CHECKING:
+    from useful_python.reactive.protocols.observable import BaseObservableProtocol
 
 
 class ObserverProtocol(Protocol):

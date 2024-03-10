@@ -12,6 +12,14 @@ from useful_python.reactive.protocols.observer import ObserverProtocol
 class Observable(BaseObservableProtocol):
     """Implement only `self.push` method."""
 
+    observers: Iterable[ObserverProtocol] = []
+
+    def __init__(self, observers: Iterable[ObserverProtocol] | None = None):
+        if self.observers == []:
+            if observers is None:
+                observers = []
+            self.observers = observers
+
     def push(self, name: Any, value: Any) -> None:
         """
         Notify all observers that the state of `name` was changed to `value`.
@@ -28,7 +36,7 @@ class ObservableChanges(Observable, ObservableChangesProtocol):
 
     def __setattr__(self, __name: Any, __value: Any) -> None:
         self.push(__name, __value)
-        return super().__setattr__(__name, __value)
+        self.__dict__[__name] = __value
 
 
 class ObservableDict(ObservableChanges, dict):
@@ -55,7 +63,7 @@ class ObservableDict(ObservableChanges, dict):
             observers = []
 
         obs_dict = ObservableDict()
-        obs_dict.__dict__ = dictionary
+        obs_dict.update(dictionary)
         obs_dict.observers = observers
         return obs_dict
 

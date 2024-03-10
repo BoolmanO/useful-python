@@ -17,6 +17,7 @@ def effect(fn) -> ObserverProtocol:
         class Cache(ObservableChanges):
             observers = [effect(log)]
 
+    effect doesn't working with builtin functions, use lambda instead.
     """
     fn.__push__ = fn.__call__
     return fn
